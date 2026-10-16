@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark-modern">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruchy Browna | Wirtualne Laboratorium Fizyczne 2D</title>
+  
+  <!-- Czcionka Inter dla nowoczesnego wyglądu UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- KaTeX CSS + JS + Auto-render Extension -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  
+  <!-- Ikony Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Górny Pasek Nawigacji (Zawsze na stałe u góry ekranu: position: fixed) -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="3" fill="currentColor"></circle>
+            <ellipse cx="16" cy="16" rx="13.5" ry="5.5" transform="rotate(30 16 16)"></ellipse>
+            <ellipse cx="16" cy="16" rx="13.5" ry="5.5" transform="rotate(-30 16 16)"></ellipse>
+            <ellipse cx="16" cy="16" rx="13.5" ry="5.5" transform="rotate(90 16 16)"></ellipse>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Ruchy Browna</span>
+        </div>
+      </div>
+
+      <!-- Szybka Nawigacja po Treści -->
+      <nav class="nav-links">
+        <a href="#wstep" class="nav-link active">Wstęp</a>
+        <a href="#historia" class="nav-link">Historia</a>
+        <a href="#fizyka" class="nav-link">Fizyka Zderzeń</a>
+        <a href="#laboratorium" class="nav-link">Laboratorium</a>
+        <a href="#matematyka" class="nav-link">Wzór Einsteina</a>
+      </nav>
+
+      <!-- Kontrolki Nagłówka: Wybór Motywu -->
+      <div class="header-controls">
+        <div class="theme-switcher" role="radiogroup" aria-label="Wybór motywu graficznego">
+          <button type="button" class="theme-btn active" data-theme="dark-modern" title="Motyw Ciemny Nowoczesny" aria-pressed="true">
+            <i class="ph-bold ph-moon"></i>
+            <span class="theme-label">Ciemny</span>
+          </button>
+          <button type="button" class="theme-btn" data-theme="light-modern" title="Motyw Jasny Nowoczesny" aria-pressed="false">
+            <i class="ph-bold ph-sun"></i>
+            <span class="theme-label">Jasny</span>
+          </button>
+          <button type="button" class="theme-btn" data-theme="textbook" title="Motyw Podręcznikowy" aria-pressed="false">
+            <i class="ph-bold ph-book-open"></i>
+            <span class="theme-label">Podręcznik</span>
+          </button>
+        </div>
+        <select id="theme-select" class="theme-select sr-only" tabindex="-1" aria-hidden="true">
+          <option value="dark-modern">Ciemny Nowoczesny</option>
+          <option value="light-modern">Jasny Nowoczesny</option>
+          <option value="textbook">Podręcznikowy</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Główny Kontener Aplikacji -->
+  <main class="main-layout" id="main-content">
+
+    <!-- Część 1: Wprowadzenie, Historia i Fizyka 1. LO -->
+    <div class="content-block dossier-top" id="dossier-top">
+
+      <!-- Hero Section -->
+      <section class="card hero-card" id="wstep">
+        <div class="hero-glow-ambient"></div>
+        <h1 class="hero-headline">Dlaczego martwy pyłek porusza się bez końca?</h1>
+        <p class="hero-lead">
+          Gdy spojrzysz przez mikroskop na kroplę wody z pyłkiem kwiatowym, zobaczysz zdumiewający spektakl: 
+          pyłek nie opada na dno ani nie spoczywa w bezruchu – bezustannie drga, wykonując gwałtowny, 
+          nieprzewidywalny, chaotyczny ruch zygzakowaty. <strong>Kto go popycha? Skąd czerpie energię?</strong>
+        </p>
+
+        <div class="hero-stats-grid">
+          <div class="stat-tile">
+            <div class="stat-icon-wrap"><i class="ph ph-plant"></i></div>
+            <div class="stat-content">
+              <span class="stat-label">Odkrycie</span>
+              <strong class="stat-val">Rok 1827</strong>
+              <span class="stat-desc">Robert Brown bada pyłek w wodzie</span>
+            </div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-icon-wrap"><i class="ph ph-lightning"></i></div>
+            <div class="stat-content">
+              <span class="stat-label">Częstość Zderzeń</span>
+              <strong class="stat-val">~10<sup>14</sup> / s</strong>
+              <span class="stat-desc">Uderzeń cząsteczek wody na sekundę</span>
+            </div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-icon-wrap"><i class="ph ph-atom"></i></div>
+            <div class="stat-content">
+              <span class="stat-label">Teoria Fizyczna</span>
+              <strong class="stat-val">1905–1906</strong>
+              <span class="stat-desc">Einstein & Marian Smoluchowski</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sekcja 1: Zagadka Roberta Browna -->
+      <section class="card article-card" id="historia">
+        <h2>1. Zagadka Roberta Browna (1827) i śmierć teorii „siły życiowej”</h2>
+        
+        <p>
+          W 1827 roku szkocki botanik <strong>Robert Brown</strong> badał pod mikroskopem ziarna pyłku rośliny 
+          <em>Clarkia pulchella</em> zanurzone w wodzie. Ku swojemu zdumieniu zauważył, że drobinki pyłku nieustannie, 
+          chaotycznie drgają i zmieniają kierunek. W XIX wieku w nauce dominowała teoria <em>vis vitalis</em> (tajemniczej „siły życiowej”) – 
+          Brown początkowo sądził więc, że pyłek jest żywą istotą, która sama macha mikroskopijnymi odnóżami.
+        </p>
+
+        <div class="glass-callout callout-info">
+          <div class="callout-header">
+            <span class="callout-icon"><i class="ph ph-magnifying-glass"></i></span>
+            <strong>Genialny eksperyment kontrolny Browna</strong>
+          </div>
+          <p>
+            Jako rzetelny przyrodnik Brown przeprowadził testy krzyżowe. Zastąpił świeży pyłek pyłem z 
+            <strong>martwych, zasuszonych roślin z zielnika sprzed ponad 100 lat</strong>. Cząstki nadal znajdowały się w nieustannym ruchu! 
+            Następnie sproszkował nieorganiczne substancje: węgiel kamienny, opiłki szkła, a nawet zeskrobany pył granitowy 
+            z <strong>egipskiego Sfinksa</strong>. 
+            Każda dostatecznie mała drobinka nieożywionej materii rzucona w wodę wykazywała ten sam, niegasnący chaotyczny ruch!
+          </p>
+        </div>
+
+        <p>
+          To wykluczyło jakąkolwiek biologię. Zagadka pozostała nierozwiązana przez kolejne 78 lat: 
+          co wprawia w nieustanny ruch martwą materię bez żadnego widocznego zasilania?
+        </p>
+      </section>
+
+      <!-- Sekcja 2: Fizyka mikroskopowa w akcji -->
+      <section class="card article-card" id="fizyka">
+        <h2>2. Fizyka mikroskopowa w akcji – Kto popycha pyłek?</h2>
+        
+        <h3>A. Zderzenia i Zasada Zachowania Pędu ($\vec{p} = m\vec{v}$)</h3>
+        <p>
+          Woda w naczyniu wydaje się nam jednolitą, spokojną cieczą. To jednak tylko złudzenie naszej makroskopowej skali! 
+          W rzeczywistości woda to niewyobrażalnie gęsty rój cząsteczek $\text{H}_2\text{O}$ pędzących z prędkościami rzędu 
+          <strong>kilkuset metrów na sekundę</strong> (prędkość pocisku pistoletowego!).
+        </p>
+        <p>
+          Pojedyncza cząsteczka wody ma znikomą masę ($m \approx 3 \cdot 10^{-26}\text{ kg}$), podczas gdy obserwowany pyłek 
+          ma masę rzędu $M \approx 10^{-15}\text{ kg}$ (jest od niej miliardy razy cięższy). Jednak w pyłek o średnicy zaledwie 
+          jednego mikrometra w każdej sekundzie uderza ze wszystkich stron około:
+        </p>
+        
+        <div class="math-display">
+          $$N_{\text{zderzeń}} \approx 10^{14} \text{ uderzeń na sekundę!}$$
+        </div>
+
+        <h3>B. Dlaczego pyłek w wodzie chaotycznie drga, a duże przedmioty nie? (Asymetria uderzeń)</h3>
+        <p>
+          Wyobraź sobie <strong>ogromną, lekką piłkę plażową</strong> wrzuconą w środek tłumu tysiąca skaczących kibiców. 
+          Gdy tłum jest mały, a piłka lekka, w danym ułamku sekundy z lewej strony popchnie ją 10 osób, a z prawej tylko 7. 
+          Powstaje <strong>chwilowa wypadkowa siła różnicowa</strong>:
+        </p>
+        <div class="math-display">
+          $$\vec{F}_w = \sum \vec{F}_i \neq \vec{0} \quad \implies \quad \Delta \vec{p} = \vec{F}_w \cdot \Delta t$$
+        </div>
+        <p>
+          Dla pyłku mikroskopowego liczba cząsteczek uderzających z lewej i prawej strony w ułamku mikrosekundy nigdy nie jest 
+          idealnie równa. Ta drobna asymetria wystarcza, aby nadać pyłkowi zauważalny impuls pędu $\Delta \vec{p}$.
+        </p>
+
+        <div class="glass-callout callout-warning">
+          <div class="callout-header">
+            <span class="callout-icon"><i class="ph ph-scales"></i></span>
+            <strong>Dlaczego nie porusza się szklanka z wodą ani duże przedmioty? (Prawo Wielkich Liczb)</strong>
+          </div>
+          <p>
+            Gdy zanurzysz w wodzie łyżeczkę lub dłoń, uderzają w nią nie biliony, lecz sekstyliony ($10^{23}$) cząsteczek. 
+            Z praw statystyki fluktuacje procentowe stają się niewykrywalnie małe (ułamki promila). Uderzenia z każdej strony 
+            idealnie się bilansują: $\vec{F}_w = \vec{0}$. Dodatkowo ogromna masa makroskopowa (I zasada dynamiki Newtona) 
+            oznacza potężną bezwładność ($a = \frac{F}{m} \approx 0$).
+          </p>
+        </div>
+
+        <h3>C. Czym tak naprawdę jest Temperatura?</h3>
+        <p>
+          W mechanice klasycznej energia kinetyczna pojedynczego ciała wyraża się wzorem: $E_k = \frac{mv^2}{2}$. 
+          W fizyce termodynamicznej <strong>temperatura $T$ (w Kelwinach) to nic innego jak miara średniej energii kinetycznej chaotycznego ruchu cząsteczek!</strong>
+        </p>
+        <div class="math-display highlight-math">
+          $$\langle E_k \rangle = \frac{m v_{\text{śr}}^2}{2} = \frac{3}{2} k_B T$$
+        </div>
+        <p>
+          Stała Boltzmanna $k_B \approx 1{,}38 \cdot 10^{-23}\text{ J/K}$ pełni po prostu rolę <em>kantoru walutowego</em>, 
+          który przelicza Kelwiny (skalę temperatury bezwzględnej) na Dżule (energię mechaniczną).
+        </p>
+        <p>
+          <strong>Wniosek:</strong> Podgrzanie wody oznacza przyspieszenie cząsteczek $\text{H}_2\text{O}$ ($v \propto \sqrt{T}$). 
+          Szybsze cząsteczki niosą większy pęd $p = mv$, więc ich uderzenia w pyłek stają się gwałtowniejsze!
+        </p>
+      </section>
+
+    </div>
+
+    <!-- Część 2: WIRTUALNE LABORATORIUM FIZYCZNE -->
+    <div class="content-block lab-column" id="laboratorium">
+      
+      <div class="lab-card">
+        <!-- Pasek Narzędziowy Symulatora (Status HUD) -->
+        <div class="lab-hud-header">
+          <div class="hud-status">
+            <span class="status-dot"></span>
+            <span class="status-text" id="hud-status-text">LABORATORIUM</span>
+          </div>
+          <div class="hud-badges">
+            <span id="badge-mode-indicator" class="hud-pill hud-pill-mode">Tryb 1: Widok Atomowy</span>
+            <span id="badge-fps" class="hud-pill hud-pill-fps">60 FPS</span>
+          </div>
+        </div>
+
+        <div class="lab-body-layout">
+          
+          <!-- Lewa kolumna: Ekran symulacji, toolbar, wykres na żywo i statystyki -->
+          <div class="lab-stage-col">
+            
+            <!-- Płótno Symulacji Canvas (Ramka z cząsteczką) -->
+            <div class="canvas-viewport" id="canvas-viewport">
+              <canvas id="sim-canvas"></canvas>
+              
+              <!-- Interaktywna podpowiedź gestów -->
+              <div class="canvas-hint">
+                <span><i class="ph ph-cursor-click"></i> Kliknij lub przeciągnij na płótnie, aby popchnąć pyłek ($\Delta \vec{p}$)</span>
+              </div>
+            </div>
+
+            <!-- Główne Przyciski Kontroli Symulacji -->
+            <div class="sim-toolbar">
+              <button id="btn-play-pause" class="btn btn-action-primary" title="Spacja lub kliknięcie">
+                <span class="btn-glyph" id="btn-play-glyph"><i class="ph-bold ph-pause"></i></span>
+                <span id="btn-play-text">Pauza</span>
+              </button>
+              <button id="btn-step" class="btn btn-action-secondary" title="Wykonaj 1 klatkę symulacji">
+                <span class="btn-glyph"><i class="ph-bold ph-skip-forward"></i></span>
+                <span>Krok (+1)</span>
+              </button>
+              <button id="btn-reset-pos" class="btn btn-action-secondary" title="Przywróć pyłek do środka">
+                <span class="btn-glyph"><i class="ph ph-crosshair"></i></span>
+                <span>Centruj</span>
+              </button>
+              <button id="btn-clear-trail" class="btn btn-action-secondary" title="Wyczyść linię trajektorii">
+                <span class="btn-glyph"><i class="ph ph-broom"></i></span>
+                <span>Wyczyść ślad</span>
+              </button>
+              <button id="btn-restart-sim" class="btn btn-action-danger" title="Pełny restart termiczny">
+                <span class="btn-glyph"><i class="ph ph-arrows-clockwise"></i></span>
+                <span>Reset</span>
+              </button>
+              <button id="btn-toggle-missions" class="btn btn-action-missions" title="Wysuń Scenariusze Misji Badawczych">
+                <span class="btn-glyph"><i class="ph ph-target"></i></span>
+                <span id="btn-missions-text">Misje Badawcze</span>
+                <span class="missions-arrow" id="missions-arrow"><i class="ph-bold ph-caret-down"></i></span>
+              </button>
+            </div>
+
+            <!-- Wysuwany Panel Misji Badawczych -->
+            <div class="lab-missions-drawer" id="lab-missions-drawer">
+              <div class="drawer-inner">
+                <div class="drawer-header">
+                  <div class="drawer-title-group">
+                    <span class="drawer-icon"><i class="ph ph-target"></i></span>
+                    <div>
+                      <h4 class="drawer-heading">Misje Badawcze</h4>
+                      <p class="drawer-sub">Załaduj warunki eksperymentu jednym kliknięciem i obserwuj zachowanie cząstek oraz wykres na żywo:</p>
+                    </div>
+                  </div>
+                  <button class="btn-drawer-close" id="btn-close-missions" aria-label="Zamknij misje" title="Zwiń panel misji"><i class="ph-bold ph-x"></i></button>
+                </div>
+
+                <div class="drawer-missions-grid">
+                  
+                  <!-- Misja 1 -->
+                  <div class="mission-card" id="mission-1">
+                    <div class="mission-top">
+                      <h4>Oczami Roberta Browna (1827)</h4>
+                    </div>
+                    <p class="mission-synopsis">
+                      Ukryj cząsteczki wody i zobacz to samo, co wprawiło w osłupienie XIX-wiecznych botaników. 
+                      Następnie odkryj atomy, aby zdemaskować niewidzialnych sprawców!
+                    </p>
+                    <div class="mission-action-hint">
+                      <strong>Zadanie:</strong> Załaduj misję, obserwuj samotnie drgający pyłek przez 5 sekund, 
+                      a następnie włącz widoczność cząsteczek w zakładce <em>Tryby</em>.
+                    </div>
+                    <button class="btn btn-mission-launch btn-load-mission" data-mission-id="1">
+                      <i class="ph-bold ph-rocket-launch"></i> Załaduj warunki misji
+                    </button>
+                  </div>
+
+                  <!-- Misja 2 -->
+                  <div class="mission-card" id="mission-2">
+                    <div class="mission-top">
+                      <h4>Bezwładność a fluktuacje termiczne (Wpływ masy)</h4>
+                    </div>
+                    <p class="mission-synopsis">
+                      Wprowadzamy dwie cząstki do tego samego roju atomów: lekką ($M_1$) oraz masywną ($M_2 = 15 \cdot M_1$). 
+                      Zbadaj na własne oczy wpływ bezwładności z I i II zasady dynamiki Newtona.
+                    </p>
+                    <div class="mission-action-hint">
+                      <strong>Zadanie:</strong> Załaduj misję i porównaj zasięg zielonego i pomarańczowego śladu. 
+                      Zwróć uwagę, jak małe przyspieszenie ($a = \frac{F}{M}$) zyskuje ciężka kula.
+                    </div>
+                    <button class="btn btn-mission-launch btn-load-mission" data-mission-id="2">
+                      <i class="ph-bold ph-rocket-launch"></i> Załaduj warunki misji
+                    </button>
+                  </div>
+
+                  <!-- Misja 3 -->
+                  <div class="mission-card" id="mission-3">
+                    <div class="mission-top">
+                      <h4>Gorączka Cząsteczek ($100\text{ K}$ vs $900\text{ K}$)</h4>
+                    </div>
+                    <p class="mission-synopsis">
+                      Sprawdź, jak temperatura wpływa na nachylenie wykresu $r^2(t)$. 
+                      Włączony tryb termowizji pozwoli Ci na bieżąco widzieć energię kinetyczną cząsteczek.
+                    </p>
+                    <div class="mission-action-hint">
+                      <strong>Zadanie:</strong> Załaduj misję przy $100\text{ K}$, zresetuj czas, a po 10 sekundach 
+                      przestaw suwak temperatury na $900\text{ K}$. Zobacz, jak gwałtownie krzywa $r^2$ wystrzeli w górę!
+                    </div>
+                    <button class="btn btn-mission-launch btn-load-mission" data-mission-id="3">
+                      <i class="ph-bold ph-rocket-launch"></i> Załaduj warunki misji
+                    </button>
+                  </div>
+
+                  <!-- Misja 4 -->
+                  <div class="mission-card" id="mission-4">
+                    <div class="mission-top">
+                      <h4>Droga a Przemieszczenie: Kluczowe Rozróżnienie</h4>
+                    </div>
+                    <p class="mission-synopsis">
+                      W kinematyce droga $s$ to całkowita długość przebytego toru, natomiast przemieszczenie $r$ to wektor łączący punkt startowy z aktualnym położeniem. 
+                      W ruchach chaotycznych ta różnica staje się gigantyczna!
+                    </p>
+                    <div class="mission-action-hint">
+                      <strong>Zadanie:</strong> Załaduj misję i poczekaj 15 sekund. Porównaj na licznikach drogę $s_{\text{całk}}$ 
+                      z przemieszczeniem $r$. Dlaczego iloraz $s / r$ jest tak ogromny?
+                    </div>
+                    <button class="btn btn-mission-launch btn-load-mission" data-mission-id="4">
+                      <i class="ph-bold ph-rocket-launch"></i> Załaduj warunki misji
+                    </button>
+                  </div>
+
+                  <!-- Misja 5 -->
+                  <div class="mission-card" id="mission-5">
+                    <div class="mission-top">
+                      <h4>Zagadka Pierwiastka z Czasu ($\sqrt{t}$)</h4>
+                    </div>
+                    <p class="mission-synopsis">
+                      Obserwuj rosnący okrąg teoretycznego zasięgu $r_{\text{teor}} = \sqrt{4Dt}$. 
+                      Zobacz, jak wolno powiększa się promień w miarę upływu czasu.
+                    </p>
+                    <div class="mission-action-hint">
+                      <strong>Zadanie:</strong> Załaduj misję i zmierz czas potrzebny na osiągnięcie promienia $50\text{ px}$ 
+                      oraz promienia $100\text{ px}$. Zgodnie z teorią na 2× większy zasięg potrzeba aż 4× więcej czasu!
+                    </div>
+                    <button class="btn btn-mission-launch btn-load-mission" data-mission-id="5">
+                      <i class="ph-bold ph-rocket-launch"></i> Załaduj warunki misji
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Drugi Canvas: Wykresy na Żywo (Od razu pod ramką z cząsteczką) -->
+            <div class="chart-section">
+              <div class="chart-top-bar">
+                <div class="chart-heading">
+                  <span class="chart-glyph"><i class="ph ph-chart-line-up"></i></span>
+                  <h4 id="chart-main-title">Kwadrat Przemieszczenia $r^2(t)$ vs Teoria</h4>
+                </div>
+                <div class="chart-selector">
+                  <button class="btn-chart-seg active" id="btn-chart-disp">Wykres $r^2(t)$</button>
+                  <button class="btn-chart-seg" id="btn-chart-hist">Histogram Maxwella</button>
+                </div>
+              </div>
+
+              <div class="chart-canvas-wrapper" id="chart-canvas-wrapper">
+                <canvas id="chart-canvas"></canvas>
+              </div>
+
+              <div class="chart-legend-row" id="chart-legend">
+                <div class="legend-badge">
+                  <span class="legend-dot dot-measured"></span>
+                  <span>Rzeczywisty pomiar $r^2(t)$</span>
+                </div>
+                <div class="legend-badge">
+                  <span class="legend-dot dot-theory"></span>
+                  <span>Teoria Einsteina-Smoluchowskiego ($\langle r^2 \rangle = 4Dt$)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel Telemetryczny (Następnie statystyki: czas, zderzenia, prędkość, przemieszczenie, ...) -->
+            <div class="telemetry-bar">
+              <div class="telemetry-grid-clean">
+                
+                <div class="metric-tile">
+                  <span class="m-label">Czas ($t$)</span>
+                  <span class="m-val" id="meter-time">0.0 s</span>
+                  <span class="m-sub">od startu</span>
+                </div>
+
+                <div class="metric-tile">
+                  <span class="m-label">Zderzenia</span>
+                  <span class="m-val" id="meter-collisions">0</span>
+                  <span class="m-sub" id="meter-col-rate">0 zderzeń/s</span>
+                </div>
+
+                <div class="metric-tile">
+                  <span class="m-label">Prędkość ($v$)</span>
+                  <span class="m-val" id="meter-speed">0.00 px/s</span>
+                  <span class="m-sub">chwilowa</span>
+                </div>
+
+                <div class="metric-tile highlight-cyan-tile">
+                  <span class="m-label">Przemieszczenie ($r$)</span>
+                  <span class="m-val" id="meter-disp">0.0 px</span>
+                  <span class="m-sub">$r = \sqrt{\Delta x^2 + \Delta y^2}$</span>
+                </div>
+
+                <div class="metric-tile highlight-amber-tile">
+                  <span class="m-label">Kwadrat ($r^2$)</span>
+                  <span class="m-val" id="meter-disp-sq">0 px²</span>
+                  <span class="m-sub">$\propto t$ (Einstein)</span>
+                </div>
+
+                <div class="metric-tile">
+                  <span class="m-label">Przebyta droga ($s_{\text{całk}}$)</span>
+                  <span class="m-val" id="meter-path">0.0 px</span>
+                  <span class="m-sub">długość toru ($s \gg r$)</span>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Prawa kolumna: Ssuwaki parametrów, tryby i wizualizacja -->
+          <div class="lab-controls-col">
+            <!-- Zakładki Konfiguracji (Tabs) -->
+            <div class="lab-tabs-panel">
+              <div class="tabs-nav-bar" role="tablist">
+                <button class="tab-chip active" data-tab="tab-physics" role="tab"><i class="ph ph-sliders"></i> Parametry Fizyczne</button>
+                <button class="tab-chip" data-tab="tab-modes" role="tab"><i class="ph ph-flask"></i> 6 Trybów Badań</button>
+                <button class="tab-chip" data-tab="tab-visual" role="tab"><i class="ph ph-eye"></i> Wizualizacja i Wykres</button>
+              </div>
+
+              <!-- Tab 1: Parametry Fizyczne -->
+              <div class="tab-pane active" id="tab-physics">
+                <div class="sliders-matrix">
+                  
+                  <!-- Temperatura T -->
+                  <div class="slider-box">
+                    <div class="slider-header">
+                      <label for="slider-temp">Temperatura układu ($T$):</label>
+                      <span class="slider-badge" id="val-temp">300 K</span>
+                    </div>
+                    <input type="range" id="slider-temp" min="100" max="1000" step="10" value="300">
+                    <div class="slider-limits">
+                      <span>100 K (Zimno)</span>
+                      <span>300 K (Pokój)</span>
+                      <span>1000 K (Wrzątek)</span>
+                    </div>
+                  </div>
+
+                  <!-- Masa pyłku M -->
+                  <div class="slider-box">
+                    <div class="slider-header">
+                      <label for="slider-mass">Masa pyłku Browna ($M$):</label>
+                      <span class="slider-badge" id="val-mass">50 m₀</span>
+                    </div>
+                    <input type="range" id="slider-mass" min="5" max="500" step="5" value="50">
+                    <div class="slider-limits">
+                      <span>5 m₀ (Lekki)</span>
+                      <span>50 m₀ (Średni)</span>
+                      <span>500 m₀ (Inercja)</span>
+                    </div>
+                  </div>
+
+                  <!-- Promień pyłku R -->
+                  <div class="slider-box">
+                    <div class="slider-header">
+                      <label for="slider-radius">Promień pyłku ($R$):</label>
+                      <span class="slider-badge" id="val-radius">22 px</span>
+                    </div>
+                    <input type="range" id="slider-radius" min="8" max="60" step="1" value="22">
+                    <div class="slider-limits">
+                      <span>8 px (Mały)</span>
+                      <span>22 px (Standard)</span>
+                      <span>60 px (Ogromny)</span>
+                    </div>
+                  </div>
+
+                  <!-- Liczba cząsteczek cieczy N -->
+                  <div class="slider-box">
+                    <div class="slider-header">
+                      <label for="slider-count">Cząsteczki rozpuszczalnika ($N$):</label>
+                      <span class="slider-badge" id="val-count">200</span>
+                    </div>
+                    <input type="range" id="slider-count" min="30" max="450" step="10" value="200">
+                    <div class="slider-limits">
+                      <span>30 (Gaz)</span>
+                      <span>200 (Optymalna)</span>
+                      <span>450 (Gęsta ciecz)</span>
+                    </div>
+                  </div>
+
+                  <!-- Lepkość eta -->
+                  <div class="slider-box">
+                    <div class="slider-header">
+                      <label for="slider-viscosity">Lepkość / Opór cieczy ($\eta$):</label>
+                      <span class="slider-badge" id="val-viscosity">Średnia (Woda)</span>
+                    </div>
+                    <input type="range" id="slider-viscosity" min="0" max="0.08" step="0.005" value="0.015">
+                    <div class="slider-limits">
+                      <span>0 (Próżnia)</span>
+                      <span>Woda</span>
+                      <span>Gęsty miód</span>
+                    </div>
+                  </div>
+
+                  <!-- Skala Czasu -->
+                  <div class="slider-box">
+                    <div class="slider-header">
+                      <label for="slider-timescale">Tempo symulacji:</label>
+                      <span class="slider-badge" id="val-timescale">1.0×</span>
+                    </div>
+                    <input type="range" id="slider-timescale" min="0.1" max="2.5" step="0.1" value="1.0">
+                    <div class="slider-limits">
+                      <span>0.1× (Slow-Mo)</span>
+                      <span>1.0× (Realne)</span>
+                      <span>2.5× (Turbo)</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Szybkie Presety Fizyczne -->
+                <div class="presets-shelf">
+                  <span class="presets-caption">Gotowe Scenariusze Eksperymentalne:</span>
+                  <div class="presets-flex">
+                    <button class="preset-pill" data-preset="cold-water"><i class="ph ph-thermometer-cold"></i> Pyłek w zimnej wodzie</button>
+                    <button class="preset-pill" data-preset="hot-water"><i class="ph ph-flame"></i> Pyłek we wrzątku</button>
+                    <button class="preset-pill" data-preset="honey"><i class="ph ph-drop"></i> Kropla w gęstym miodzie</button>
+                    <button class="preset-pill" data-preset="boulder"><i class="ph ph-shield"></i> Duża cząstka (Inercja)</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 2: 6 Trybów Badań -->
+              <div class="tab-pane" id="tab-modes">
+                <div class="modes-grid-clean">
+                  
+                  <button class="mode-tile active" data-mode="1">
+                    <div class="mode-tile-top">
+                      <span class="mode-tag-num">Tryb 1</span>
+                      <h4>Klasyczny (Widok Atomowy)</h4>
+                    </div>
+                    <p>Pełny podgląd mikroskopowy: duży pyłek w centrum oraz rój pędzących cząsteczek cieczy.</p>
+                  </button>
+
+                  <button class="mode-tile" data-mode="2">
+                    <div class="mode-tile-top">
+                      <span class="mode-tag-num">Tryb 2</span>
+                      <h4>Mikroskop Browna (1827)</h4>
+                    </div>
+                    <p>Cząsteczki tła są niewidoczne. Zobacz dokładnie to samo, co widział Brown w 1827 roku!</p>
+                  </button>
+
+                  <button class="mode-tile" data-mode="3">
+                    <div class="mode-tile-top">
+                      <span class="mode-tag-num">Tryb 3</span>
+                      <h4>Porównanie Mas (Inercja)</h4>
+                    </div>
+                    <p>Dwie cząstki w jednym roju: lekka ($M_1$) i 15× cięższa ($M_2$). Zbadaj bezwładność Newtona.</p>
+                  </button>
+
+                  <button class="mode-tile" data-mode="4">
+                    <div class="mode-tile-top">
+                      <span class="mode-tag-num">Tryb 4</span>
+                      <h4>Dyfuzja Kropli Barwnika</h4>
+                    </div>
+                    <p>Grupa 15 cząstek atramentu startuje w zwartym punkcie i samoistnie rozprasza się po naczyniu.</p>
+                  </button>
+
+                  <button class="mode-tile" data-mode="5">
+                    <div class="mode-tile-top">
+                      <span class="mode-tag-num">Tryb 5</span>
+                      <h4>Rentgen Wektorowy (Siła & Pęd)</h4>
+                    </div>
+                    <p>Spowolniony czas, wizualizacja wektorów prędkości $\vec{v}$ i impulsów zderzeń $\Delta \vec{p}$.</p>
+                  </button>
+
+                  <button class="mode-tile" data-mode="6">
+                    <div class="mode-tile-top">
+                      <span class="mode-tag-num">Tryb 6</span>
+                      <h4>Komora ze Szczeliną</h4>
+                    </div>
+                    <p>Przegroda z wąskim otworem. Zbadaj czas potrzebny cząstce na losowe przedostanie się na drugą stronę.</p>
+                  </button>
+
+                </div>
+              </div>
+
+              <!-- Tab 3: Wizualizacja i Wykres -->
+              <div class="tab-pane" id="tab-visual">
+                <div class="toggles-cluster">
+                  
+                  <label class="switch-card">
+                    <input type="checkbox" id="chk-trail" checked>
+                    <span class="switch-track"></span>
+                    <div class="switch-info">
+                      <strong>Ślad trajektorii pyłku</strong>
+                      <span>Rysuje historię chaotycznego zygzaka</span>
+                    </div>
+                  </label>
+
+                  <label class="switch-card">
+                    <input type="checkbox" id="chk-vectors">
+                    <span class="switch-track"></span>
+                    <div class="switch-info">
+                      <strong>Wektory prędkości ($\vec{v}$)</strong>
+                      <span>Kierunek i zwrot chwilowego pędu</span>
+                    </div>
+                  </label>
+
+                  <label class="switch-card">
+                    <input type="checkbox" id="chk-theory-circle" checked>
+                    <span class="switch-track"></span>
+                    <div class="switch-info">
+                      <strong>Zasięg teoretyczny $r_{\text{teor}} = \sqrt{4Dt}$</strong>
+                      <span>Rosnący pierścień przewidywanego zasięgu</span>
+                    </div>
+                  </label>
+
+                  <label class="switch-card">
+                    <input type="checkbox" id="chk-thermal-vision">
+                    <span class="switch-track"></span>
+                    <div class="switch-info">
+                      <strong>Termowizja energii kinetycznej</strong>
+                      <span>Od niebieskich (zimne) do czerwonych (gorące)</span>
+                    </div>
+                  </label>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Część 3: Wzory Matematyczne i Dekoder Einsteina-Smoluchowskiego -->
+    <div class="content-block dossier-bottom" id="dossier-bottom">
+
+      <!-- Sekcja 3: Matematyczny Paradoks i Twierdzenie Pitagorasa -->
+      <section class="card article-card" id="matematyka">
+        <h2>3. Matematyczny paradoks i genialny trik z Twierdzeniem Pitagorasa</h2>
+
+        <h3>Paradoks zerowego przemieszczenia</h3>
+        <p>
+          Zastanów się: skoro pyłek po każdym zderzeniu z równym prawdopodobieństwem może zostać popchnięty 
+          w lewo ($-\Delta x$), jak i w prawo ($+\Delta x$), to ile wynosi jego średnie przemieszczenie po wykonaniu 
+          tysięcy zderzeń?
+        </p>
+        <div class="math-display">
+          $$\langle \Delta x \rangle = \frac{(+\Delta x) + (-\Delta x) + (+\Delta x) + \dots}{N} \approx 0$$
+        </div>
+        <p>
+          Średnia wartość wektora przemieszczenia wynosi zero! Czy to oznacza, że pyłek po godzinie nadal stoi w punkcie startu? 
+          Oczywiście nie – pyłek wędruje coraz dalej, ale w losowo wybranym kierunku.
+        </p>
+
+        <h3>Pitagoras na ratunek – dlaczego podnosimy do kwadratu?</h3>
+        <p>
+          W 1905 roku <strong>Albert Einstein</strong> oraz w 1906 roku polski geniusz fizyki <strong>Marian Smoluchowski</strong> 
+          zastosowali prosty trik algebraiczny znany każdemu uczniowi: <strong>podnoszenie do kwadratu</strong>!
+        </p>
+        <p>
+          Niezależnie od tego, czy krok był w lewo ($-4\text{ px}$), czy w prawo ($+4\text{ px}$), kwadrat jest zawsze dodatni:
+        </p>
+        <div class="math-display">
+          $$(-4)^2 = +16, \quad (+4)^2 = +16$$
+        </div>
+        <p>
+          Na płaszczyźnie 2D naszego ekranu, odległość od punktu startu wyliczamy bezpośrednio z <strong>Twierdzenia Pitagorasa</strong>:
+        </p>
+        <div class="math-display">
+          $$r^2 = (\Delta x)^2 + (\Delta y)^2$$
+        </div>
+        <p>
+          Gdy cząstka wykona $N$ niezależnych losowych kroków o długości $l$, po zsumowaniu kwadratów wszystkie iloczyny 
+          mieszane uśredniają się do zera, a zostaje prosta zależność:
+        </p>
+        <div class="math-display">
+          $$\langle r^2 \rangle = N \cdot l^2$$
+        </div>
+        <p>
+          A ponieważ liczba uderzeń $N$ rośnie wprost proporcjonalnie do upływającego czasu ($N \propto t$), otrzymujemy fundamentalne 
+          <strong>Prawo Dyfuzji Browna w 2D</strong>:
+        </p>
+        <div class="math-display highlight-math">
+          $$\langle r^2 \rangle = 4 D t \quad \implies \quad r_{\text{skuteczne}} = \sqrt{\langle r^2 \rangle} = \sqrt{4Dt} \propto \sqrt{t}$$
+        </div>
+
+        <div class="glass-callout callout-success">
+          <div class="callout-header">
+            <span class="callout-icon"><i class="ph ph-check-circle"></i></span>
+            <strong>Kluczowy wniosek: Liniowość vs Pierwiastek!</strong>
+          </div>
+          <p>
+            W ruchu jednostajnym ze stałą prędkością ($s = v \cdot t$) droga rośnie liniowo: 
+            w 2 razy dłuższym czasie pokonana odległość jest <strong>2 razy większa</strong>.
+          </p>
+          <p>
+            W ruchach Browna odległość rośnie jak <strong>pierwiastek z czasu ($\sqrt{t}$)</strong>:
+          </p>
+          <ul class="styled-bullet-list">
+            <li>Aby oddalić się <strong>2 razy dalej</strong> od startu, musisz czekać aż <strong>4 razy dłużej</strong> ($2^2 = 4$).</li>
+            <li>Aby oddalić się <strong>3 razy dalej</strong>, musisz czekać <strong>9 razy dłużej</strong> ($3^2 = 9$).</li>
+            <li>Aby oddalić się <strong>10 razy dalej</strong>, musisz czekać aż <strong>100 razy dłużej</strong> ($10^2 = 100$)!</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Sekcja 4: Pełny Wzór Einsteina-Smoluchowskiego i Dekoder -->
+      <section class="card article-card" id="wzory">
+        <h2>4. Pełny wzór Einsteina-Smoluchowskiego</h2>
+        
+        <p>
+          Łącząc termodynamikę cząsteczkową ze zderzeniami hydrostatycznymi (prawo oporu Stokesa), 
+          Einstein i Smoluchowski wyprowadzili pełne równanie na średni kwadrat przemieszczenia na płaszczyźnie 2D:
+        </p>
+
+        <div class="math-display hero-equation">
+          $$\langle r^2 \rangle = \frac{2 k_B T}{3 \pi \eta R} \cdot t$$
+        </div>
+
+        <p class="subtitle-center">
+          Kliknij na dowolny symbol we wzorze poniżej, aby odkryć jego fizyczne znaczenie:
+        </p>
+
+        <!-- Interaktywny Dekoder Wzoru -->
+        <div class="decoder-widget">
+          <div class="decoder-chips-row">
+            <button class="decoder-btn active" data-symbol="T">
+              <span class="symbol-tex">$T$</span>
+              <span class="symbol-name">Temperatura</span>
+              <span class="symbol-pos">Licznik</span>
+            </button>
+            <button class="decoder-btn" data-symbol="R">
+              <span class="symbol-tex">$R$</span>
+              <span class="symbol-name">Promień pyłku</span>
+              <span class="symbol-pos">Mianownik</span>
+            </button>
+            <button class="decoder-btn" data-symbol="eta">
+              <span class="symbol-tex">$\eta$</span>
+              <span class="symbol-name">Lepkość płynu</span>
+              <span class="symbol-pos">Mianownik</span>
+            </button>
+            <button class="decoder-btn" data-symbol="kB">
+              <span class="symbol-tex">$k_B$</span>
+              <span class="symbol-name">Stała Boltzmanna</span>
+              <span class="symbol-pos">Licznik</span>
+            </button>
+            <button class="decoder-btn" data-symbol="t">
+              <span class="symbol-tex">$t$</span>
+              <span class="symbol-name">Czas trwania</span>
+              <span class="symbol-pos">Liniowy</span>
+            </button>
+          </div>
+
+          <!-- Okno Szczegółów Symbolu -->
+          <div class="decoder-detail-box" id="decoder-details">
+            <div class="decoder-detail-top">
+              <h4 id="decoder-title">Symbol: $T$ – Temperatura Bezwzględna (w Kelwinach)</h4>
+              <span class="decoder-tag" id="decoder-location">W liczniku wzoru (wpływ wprost proporcjonalny)</span>
+            </div>
+            <div class="decoder-detail-content" id="decoder-text">
+              <p>
+                <strong>Dlaczego w liczniku?</strong> Zgodnie z termodynamiką $E_k = \frac{3}{2} k_B T$. 
+                Większa temperatura to szybszy ruch cząsteczek cieczy ($v \propto \sqrt{T}$), większy pęd przekazywany pyłkowi 
+                podczas zderzeń i gwałtowniejsze impulsy siły. W gorącej cieczy cząstki dyfundują znacznie szybciej niż w lodowatej!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="historical-box">
+          <div class="historical-avatar-box"><i class="ph ph-graduation-cap"></i></div>
+          <div class="historical-body">
+            <h4>Marian Smoluchowski (1872–1917) & Jean Perrin</h4>
+            <p>
+              Podczas gdy Albert Einstein wyprowadził to równanie metodą równań różniczkowych dyfuzji, 
+              <strong>Marian Smoluchowski</strong> (profesor Uniwersytetu Jagiellońskiego i Lwowskiego) doszedł do tego samego wyniku 
+              niezależnie w 1906 roku, analizując wprost prawdopodobieństwo pojedynczych zderzeń kulek! 
+              W 1908 roku francuski fizyk <strong>Jean Perrin</strong> przeprowadził tytaniczną pracę pod mikroskopem, 
+              zliczając kroki tysięcy cząstek żywicy i weryfikując wzór Einsteina-Smoluchowskiego. 
+              Wyznaczył dzięki temu masę atomu i liczbę Avogadra, za co otrzymał <strong>Nagrodę Nobla w 1926 roku</strong>. 
+              To zamknęło usta sceptykom i udowodniło, że atomy nie są jedynie matematyczną fikcją, lecz realnymi cząstkami materii!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stopka Edukacyjna -->
+      <footer class="app-footer">
+        <div class="footer-inner">
+          <p class="footer-title">Ruchy Browna</p>
+          <div class="footer-author">
+            <span>Autor: <strong>Fabian Dawidowski</strong></span>
+            <span class="footer-sep">•</span>
+            <a href="https://github.com/fabirednik" target="_blank" rel="noopener noreferrer" class="footer-github-link">
+              <svg class="footer-github-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              <span>fabirednik</span>
+            </a>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
