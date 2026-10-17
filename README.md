@@ -116,33 +116,42 @@ Aplikacja została napisana w czystym stosie webowym (**Zero Build Step, No Node
 - **Canvas API 2D** – renderowanie cząstek, trajektorii i oscyloskopu wykresu przy 60 FPS,
 - **[KaTeX](https://katex.org/)** – błyskawiczne renderowanie wzorów matematycznych $\LaTeX$,
 - **[Phosphor Icons](https://phosphoricons.com/)** – nowoczesny zestaw ikon wektorowych,
-- **Google Fonts** – kroje pisma *Inter* oraz *JetBrains Mono*.
+- **Google Fonts** – kroje pisma *Inter* oraz *JetBrains Mono*,
+- **Cloudflare Workers / Wrangler** – hosting i dystrybucja plików statycznych (Workers Static Assets).
 
 ---
 
-## 🚀 Jak uruchomić lokalnie
+## 🚀 Jak uruchomić lokalnie i wdrożyć
 
-Projekt nie wymaga instalacji żadnych bibliotek, menedżerów pakietów ani procesów kompilacji.
+Projekt nie wymaga kompilacji ani bundlerów (Zero Build Step).
 
-### Sposób 1: Bezpośrednie otwarcie w przeglądarce
-Wystarczy dwukrotnie kliknąć plik `index.html` lub przeciągnąć go do okna dowolnej nowoczesnej przeglądarki internetowej (Chrome, Edge, Firefox, Safari, Opera).
+### Sposób 1: Za pomocą Cloudflare Wrangler (Zalecane)
+Możesz uruchomić lokalny serwer deweloperski symulujący środowisko Cloudflare:
+```bash
+npx wrangler dev
+```
+Następnie otwórz wskazany w terminalu adres (zwykle [http://localhost:8787](http://localhost:8787)).
 
-### Sposób 2: Za pomocą prostego serwera HTTP (zalecane)
-Jeśli chcesz uruchomić projekt przez lokalny serwer WWW:
+Wdrożenie na Cloudflare:
+```bash
+npx wrangler deploy
+```
+
+### Sposób 2: Bezpośrednie otwarcie w przeglądarce
+Możesz również bezpośrednio otworzyć plik `public/index.html` w dowolnej nowoczesnej przeglądarce (Chrome, Edge, Firefox, Safari, Opera).
+
+### Sposób 3: Za pomocą prostego serwera HTTP
 
 **Python 3:**
 ```bash
-python -m http.server 8000
+python -m http.server 8000 -d public
 ```
-Następnie otwórz w przeglądarce: [http://localhost:8000](http://localhost:8000)
+Następnie otwórz: [http://localhost:8000](http://localhost:8000)
 
 **Node.js (npx serve):**
 ```bash
-npx serve .
+npx serve public
 ```
-
-**Rozszerzenie Live Server w VS Code:**
-Kliknij prawym przyciskiem myszy na plik `index.html` i wybierz opcję **„Open with Live Server”**.
 
 ---
 
@@ -150,9 +159,11 @@ Kliknij prawym przyciskiem myszy na plik `index.html` i wybierz opcję **„Open
 
 ```text
 ruchy-browna-www/
-├── index.html        # Główny szkielet aplikacji, artykuł merytoryczny, laboratorium i dekoder
-├── styles.css        # Kompletne arkusze stylów, system motywów, HUD, layout laboratoryjny
-├── script.js         # Silnik symulacji 2D, termostat, oscyloskop, telemetria i obsługa zdarzeń
+├── public/           # Katalog z plikami statycznymi serwowanymi przez Cloudflare Assets
+│   ├── index.html    # Główny szkielet aplikacji, artykuł merytoryczny, laboratorium i dekoder
+│   ├── styles.css    # Kompletne arkusze stylów, system motywów, HUD, layout laboratoryjny
+│   └── script.js     # Silnik symulacji 2D, termostat, oscyloskop, telemetria i obsługa zdarzeń
+├── wrangler.toml     # Konfiguracja Cloudflare Workers / Static Assets
 └── README.md         # Dokumentacja techniczna i merytoryczna projektu
 ```
 
